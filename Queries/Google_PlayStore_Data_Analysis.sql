@@ -107,11 +107,11 @@ on t.Category = m.Category ;
 
 
 set @avg_rating = ( select round(avg( Rating ),2) from playstore ) ; 
-set @avg_qor = ( select round(avg( Reviews ),2) from playstore ) ; 
+set @avg_qor = ( select round(avg( Reviews ),2) from playst) ; 
 
 select (4)*4;
 
-select round(sum(numr)/(sqrt( sum(SS_Rating) * sum(SS_Reviews))),2 ) as Correlation  
+select round(sum(numr)/(sqrt( sum(SS_Rating) * sum(SS_Reviews))),2 ) as Coelation  
 from (select (Rating - @avg_rating) * (Rating - @avg_qor) as numr, SS_Rating , SS_Reviews  
 		from (select App , Rating ,  Reviews , round((Rating - @avg_rating)*(Rating - @avg_rating) , 2) as SS_Rating , round((Reviews - @avg_qor)*(Reviews - @avg_qor) , 2) as SS_Reviews 
 from playstore )t
