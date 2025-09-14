@@ -19,11 +19,20 @@
 -- (TOP 5) for launching new free apps based on their average
 -- ratings.
 
-select category , round(avg(Rating),2) as avg_rating 
-from playstore 
-group by category 
-order by avg_rating desc 
-limit 5 ;
+
+
+
+SELECT 
+    category, 
+    ROUND(AVG(rating), 2) AS avg_rating
+FROM 
+    playstore
+GROUP BY 
+    category
+ORDER BY 
+    avg_rating DESC
+LIMIT 5;
+
 
 
 -- Q2
@@ -32,12 +41,19 @@ limit 5 ;
 -- from paid apps. This calculation is based on the product of the app
 -- price and its number of installations. 
 
-select distinct app, category , ( Installs * Price ) as cost 
-from playstore 
-where Type = 'Paid' 
-order by cost desc 
-limit 3 ;
-
+SELECT 
+    app,
+    category,
+    (CAST(installs AS NUMERIC) * CAST(price AS NUMERIC)) AS cost
+FROM 
+    playstore
+WHERE 
+    type = 'Paid'
+GROUP BY
+    app, category, installs, price
+ORDER BY 
+    cost DESC
+LIMIT 3;
 
 -- Q3
 -- As a data analyst for a gaming company, you're tasked with
@@ -100,9 +116,4 @@ from (select (Rating - @avg_rating) * (Rating - @avg_qor) as numr, SS_Rating , S
 		from (select App , Rating ,  Reviews , round((Rating - @avg_rating)*(Rating - @avg_rating) , 2) as SS_Rating , round((Reviews - @avg_qor)*(Reviews - @avg_qor) , 2) as SS_Reviews 
 from playstore )t
 )r; 
-
-
-
-
-
 
